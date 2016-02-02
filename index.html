@@ -1,0 +1,438 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Angular 1 with Kendo in material design</title>
+    <link rel="shortcut icon" href="assets/images/favicon.png" />
+    <link href="http://fonts.googleapis.com/css?family=RobotoDraft:regular,bold,italic,thin,light,bolditalic,black,medium&lang=en" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/angular-material.css">
+    <link rel="stylesheet" href="assets/css/angular-material-icons.css">
+    <link rel="stylesheet" href="assets/css/kendo.common-material.min.css">
+    <link rel="stylesheet" href="assets/css/kendo.material.min.css">
+    <link rel="stylesheet" href="assets/css/material.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <script src="assets/js/material.js"></script>
+
+    <!-- Angular Relative Script -->
+    <script src="assets/libs/jquery-2.1.4.js"></script>
+    <script src="assets/libs/angular.min.js"></script>
+    <script src="assets/libs/angular-animate.min.js"></script>
+    <script src="assets/libs/angular-aria.js"></script>
+    <script src="assets/libs/angular-material.js"></script>
+    <script src="assets/libs/angular-ui-router.min.js"></script>
+    <script src="assets/libs/angular-material-icons.js"></script>
+    <script src="assets/libs/kendo.all.min.js"></script>
+
+    <script src="app/products/Products.js"></script>
+    <script src="app/products/ProductController.js"></script>
+    <script src="app/products/ProductService.js"></script>
+    <script src="app/System/system.js"></script>
+    <script src="app/System/systemController.js"></script>
+    <script src="app/System/systemService.js"></script>
+    <script src="app/exercise/exercise.js"></script>
+    <script src="app/exercise/exerciseController.js"></script>
+    <script src="app/exercise/exerciseService.js"></script>
+    <script src="app/activity/activity.js"></script>
+    <script src="app/activity/activityController.js"></script>
+    <script src="app/activity/activityService.js"></script>
+    <script src="app/rating/rating.js"></script>
+    <script src="app/rating/ratingController.js"></script>
+    <script src="app/rating/ratingService.js"></script>
+    <script src="app/dataUsage/dataUsage.js"></script>
+    <script src="app/dataUsage/dataUsageController.js"></script>
+    <script src="app/dataUsage/dataUsageService.js"></script>
+    <script src="app/commonIssue/commonIssue.js"></script>
+    <script src="app/commonIssue/commonIssueController.js"></script>
+    <script src="app/commonIssue/commonIssueService.js"></script>
+    <script src="app/app.js"></script>
+    
+    <!-- Angular directive -->
+    <script src="app/directives/resize-chart.js"></script>
+
+    <style>
+    #view-source {
+      position: fixed;
+      display: block;
+      right: 0;
+      bottom: 0;
+      margin-right: 40px;
+      margin-bottom: 40px;
+      z-index: 900;
+    }
+    </style>
+  </head>
+  <body ng-app="MasterTelemetry" layout="row" ng-controller="productsController as apc">
+    <md-sidenav class="md-sidenav-left md-whiteframe-z2" 
+                  layout="column" 
+                  md-component-id="left" 
+                  md-is-locked-open="$mdMedia('gt-md')">
+
+      <md-toolbar class="md-hue-2">
+        <!-- fill up the space between left and right area -->
+        <span flex></span>
+        <div layout="row" layout-align="start center">
+          <md-icon class="md-avatar" md-svg-src="/assets/images/user.svg" style="fill:white;"></md-icon>
+          <span flex></span>
+        </div>
+        <span flex></span>
+        <div class="md-body-2">User Name</div>
+        <div class="md-body-1">username@email.com</div>  
+      </md-toolbar> 
+
+      <md-list>
+        <md-list-item class="md-2-line" ng-repeat="item in apc.menu" role="link" md-ink-ripple>
+          <md-icon md-svg-icon="{{item.icon}}" aria-label="{{item.title}}"></md-icon>
+          <div class="md-list-item-text">
+            <span class="md-body-2">{{item.title}}</span>
+          </div>
+        </md-list-item>
+        <md-divider></md-divider>
+        <md-subheader class="md-no-sticky">Analytics</md-subheader>
+        <md-list-item class="md-2-line" ng-repeat="item in apc.products" role="link" md-ink-ripple style="min-height: 36px;">
+          <md-icon md-svg-icon="{{item.icon}}" aria-label="{{item.name}}" style="margin-top: 0px;"></md-icon>
+          <div class="md-list-item-text">
+            <span class="md-body-2">{{item.name}}</span>
+          </div>
+        </md-list-item>
+      </md-list>   
+    </md-sidenav>
+
+
+    <div layout="column" class="relative" layout-fill role="main">
+      
+      <md-toolbar class="animate-show md-whiteframe-z1">
+        <div class="md-toolbar-tools">
+          <md-button class="md-icon-button" ng-click="apc.toggleSidenav('left')" hide-gt-md aria-label="Menu">
+            <md-icon md-svg-icon="navigation:ic_menu_24px" aria-lable="Menu"></md-icon>
+          </md-button>
+          <h3>
+            Dashboard
+            <md-icon md-svg-icon="navigation:ic_chevron_right_24px" aria-lable="Menu"></md-icon>
+            Analytics
+          </h3>
+          <span flex></span>
+        </div>
+      </md-toolbar>
+
+      <md-content flex>
+        <div layout="row" layout-sm="column" layout-md="column" layout-margin class="display-animation">
+
+          <div flex="25" flex-sm="100" flex-md="100" 
+               style="box-shadow: 0 1px 3px 0 rgba(0,0,0,.2),0 1px 1px 0 rgba(0,0,0,.14),0 2px 1px -1px rgba(0,0,0,.12); margin:5px; animation-delay: 0.39s;"
+               resize-chart chartname="systemChart" class="material-animate material-animated">
+            <div layout="column" layout-padding ng-controller="systemController as sc">
+              <div layout="row">
+                <h5 style="margin-top: 12px;">System</h5>
+                <span flex></span>
+                <md-menu style="padding: 0;" md-position-mode="target-right target">
+                  <md-button class="md-icon-button" aria-label="Open Settings"
+                             ng-click="sc.openMenu($mdOpenMenu, $event)">
+                    <md-icon md-svg-icon="navigation:ic_more_vert_24px" aria-label="More"></md-icon>
+                  </md-button>
+                  <md-menu-content width="2">
+                    <md-menu-item>
+                      <md-button aria-label="Refresh Chart">
+                        <md-icon md-svg-icon="navigation:ic_refresh_24px" aria-label="Refresh"></md-icon>
+                        <span>Refresh</span>
+                      </md-button>
+                    </md-menu-item>
+                    <md-menu-item>
+                      <md-button aria-label="Filter Data">
+                        <md-icon md-svg-icon="content:ic_filter_list_24px" aria-label="Filter"></md-icon>
+                        Filter
+                      </md-button>
+                    </md-menu-item>
+                    <md-menu-item>
+                      <md-button aria-label="Print Data">
+                        <md-icon md-svg-icon="action:ic_print_24px" aria-label="Print"></md-icon>
+                        Print
+                      </md-button>
+                    </md-menu-item>
+
+                  </md-menu-content>
+                </md-menu>
+                
+              </div>
+              <div>
+                <div id="systemChart" kendo-chart k-options="sc.systemchart" k-legend="sc.legend" k-data-source="sc.systemData"></div>
+              </div>
+            </div>
+          </div>
+
+          <div flex="25" flex-sm="100" flex-md="100" 
+               style="box-shadow: 0 1px 3px 0 rgba(0,0,0,.2),0 1px 1px 0 rgba(0,0,0,.14),0 2px 1px -1px rgba(0,0,0,.12); margin:5px; animation-delay: 0.56s;" 
+               resize-chart chartname="activityChart" class="material-animate material-animated">
+            <div layout="column" layout-padding ng-controller="activityController as ac">
+              <div layout="row">
+                <h5 style="margin-top: 12px;">Activity</h5>
+                <span flex></span>
+                <md-menu style="padding: 0;" md-position-mode="target-right target">
+                  <md-button class="md-icon-button" aria-label="Open Settings"
+                             ng-click="ac.openMenu($mdOpenMenu, $event)">
+                    <md-icon md-svg-icon="navigation:ic_more_vert_24px" aria-label="More"></md-icon>
+                  </md-button>
+                  <md-menu-content width="2">
+                    <md-menu-item>
+                      <md-button aria-label="Refresh Chart">
+                        <md-icon md-svg-icon="navigation:ic_refresh_24px" aria-label="Refresh"></md-icon>
+                        <span>Refresh</span>
+                      </md-button>
+                    </md-menu-item>
+                    <md-menu-item>
+                      <md-button aria-label="Filter Data">
+                        <md-icon md-svg-icon="content:ic_filter_list_24px" aria-label="Filter"></md-icon>
+                        Filter
+                      </md-button>
+                    </md-menu-item>
+                    <md-menu-item>
+                      <md-button aria-label="Print Data">
+                        <md-icon md-svg-icon="action:ic_print_24px" aria-label="Print"></md-icon>
+                        Print
+                      </md-button>
+                    </md-menu-item>
+
+                  </md-menu-content>
+                </md-menu>
+              </div>
+              <div>
+                <div id="activityChart" kendo-chart k-options="ac.actvitychart" k-legend="ac.legend" k-data-source="ac.actvityData"></div> 
+              </div>
+            </div>
+          </div>
+
+          <div flex="25" flex-sm="100" flex-md="100" 
+               style="box-shadow: 0 1px 3px 0 rgba(0,0,0,.2),0 1px 1px 0 rgba(0,0,0,.14),0 2px 1px -1px rgba(0,0,0,.12); margin:5px; animation-delay: 0.66s;" 
+               resize-chart chartname="exerciseChart" class="material-animate material-animated">
+            <div layout="column" layout-padding ng-controller="exerciseController as ec">
+              <div layout="row">
+                <h5 style="margin-top: 12px;">Exercise</h5>
+                <span flex></span>
+                <md-menu style="padding: 0;" md-position-mode="target-right target">
+                  <md-button class="md-icon-button" aria-label="Open Settings"
+                             ng-click="ec.openMenu($mdOpenMenu, $event)">
+                    <md-icon md-svg-icon="navigation:ic_more_vert_24px" aria-label="More"></md-icon>
+                  </md-button>
+                  <md-menu-content width="2">
+                    <md-menu-item>
+                      <md-button aria-label="Refresh Chart">
+                        <md-icon md-svg-icon="navigation:ic_refresh_24px" aria-label="Refresh"></md-icon>
+                        <span>Refresh</span>
+                      </md-button>
+                    </md-menu-item>
+                    <md-menu-item>
+                      <md-button aria-label="Filter Data">
+                        <md-icon md-svg-icon="content:ic_filter_list_24px" aria-label="Filter"></md-icon>
+                        Filter
+                      </md-button>
+                    </md-menu-item>
+                    <md-menu-item>
+                      <md-button aria-label="Print Data">
+                        <md-icon md-svg-icon="action:ic_print_24px" aria-label="Print"></md-icon>
+                        Print
+                      </md-button>
+                    </md-menu-item>
+
+                  </md-menu-content>
+                </md-menu>
+              </div>
+              <div>
+                <div id="exerciseChart" kendo-chart k-options="ec.exercisechart" k-legend="ec.legend" k-data-source="ec.exerciseData"></div> 
+              </div>
+            </div>
+          </div>
+
+          <div flex="25" flex-sm="100" flex-md="100" 
+               style="box-shadow: 0 1px 3px 0 rgba(0,0,0,.2),0 1px 1px 0 rgba(0,0,0,.14),0 2px 1px -1px rgba(0,0,0,.12); margin:5px; animation-delay: 0.69s;" 
+               resize-chart chartname="ratingChart" class="material-animate material-animated">
+            <div layout="column" layout-padding ng-controller="ratingController as rc">
+              <div layout="row">
+                <h5 style="margin-top: 12px;">Rating</h5>
+                <span flex></span>
+                <md-menu style="padding: 0;" md-position-mode="target-right target">
+                  <md-button class="md-icon-button" aria-label="Open Settings"
+                             ng-click="rc.openMenu($mdOpenMenu, $event)">
+                    <md-icon md-svg-icon="navigation:ic_more_vert_24px" aria-label="More"></md-icon>
+                  </md-button>
+                  <md-menu-content width="2">
+                    <md-menu-item>
+                      <md-button aria-label="Refresh Chart">
+                        <md-icon md-svg-icon="navigation:ic_refresh_24px" aria-label="Refresh"></md-icon>
+                        <span>Refresh</span>
+                      </md-button>
+                    </md-menu-item>
+                    <md-menu-item>
+                      <md-button aria-label="Filter Data">
+                        <md-icon md-svg-icon="content:ic_filter_list_24px" aria-label="Filter"></md-icon>
+                        Filter
+                      </md-button>
+                    </md-menu-item>
+                    <md-menu-item>
+                      <md-button aria-label="Print Data">
+                        <md-icon md-svg-icon="action:ic_print_24px" aria-label="Print"></md-icon>
+                        Print
+                      </md-button>
+                    </md-menu-item>
+
+                  </md-menu-content>
+                </md-menu>
+              </div>
+              <div>
+                <div id="ratingChart" kendo-chart k-options="rc.ratingchart" k-data-source="rc.ratingData"></div> 
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+
+        <!-- Start div for line chart -->
+        <div layout="row" layout-sm="column" layout-md="column" layout-margin class="display-animation">
+          <div style="box-shadow: 0 1px 3px 0 rgba(0,0,0,.2),0 1px 1px 0 rgba(0,0,0,.14),0 2px 1px -1px rgba(0,0,0,.12); margin:5px; animation-delay: 0.50s;"
+               ng-controller="DataUsageController as duc" flex class="material-animate material-animated">
+            <div layout="column" layout-padding>
+              <div layout="row">
+                <h5 style="margin-top: 12px;">Data usage in different location</h5>
+                <span flex></span>
+                <md-menu style="padding: 0;" md-position-mode="target-right target">
+                  <md-button class="md-icon-button" aria-label="Open Settings"
+                             ng-click="duc.openMenu($mdOpenMenu, $event)">
+                    <md-icon md-svg-icon="navigation:ic_more_vert_24px" aria-label="More"></md-icon>
+                  </md-button>
+                  <md-menu-content width="2">
+                    <md-menu-item>
+                      <md-button aria-label="Refresh Chart">
+                        <md-icon md-svg-icon="navigation:ic_refresh_24px" aria-label="Refresh"></md-icon>
+                        <span>Refresh</span>
+                      </md-button>
+                    </md-menu-item>
+                    <md-menu-item>
+                      <md-button aria-label="Filter Data">
+                        <md-icon md-svg-icon="content:ic_filter_list_24px" aria-label="Filter"></md-icon>
+                        Filter
+                      </md-button>
+                    </md-menu-item>
+                    <md-menu-item>
+                      <md-button aria-label="Print Data">
+                        <md-icon md-svg-icon="action:ic_print_24px" aria-label="Print"></md-icon>
+                        Print
+                      </md-button>
+                    </md-menu-item>
+                  </md-menu-content>
+                </md-menu>
+              </div>
+              <div>
+                <div id="dataUsageChart" kendo-chart k-options="duc.DataUsagechart" k-data-source="duc.DataUsageData"></div> 
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- End of Line chart div-->
+
+
+        <!-- div for radar chart and notification-->
+        <div layout="row" layout-sm="column" layout-md="column" layout-margin class="display-animation">
+          
+          <div flex="66" flex-sm="100" flex-md="100">
+            <div layout="row" layout-sm="column" layout-md="column">
+              <div flex="40" flex-sm="100" flex-md="100" style="margin:5px;">
+                <div layout="column">
+                  <div flex style="background: rgb(0, 149, 135); color: white; padding: 20px; box-shadow: 0 1px 3px 0 rgba(0,0,0,.2),0 1px 1px 0 rgba(0,0,0,.14),0 2px 1px -1px rgba(0,0,0,.12); animation-delay: 0.75s;" class="material-animate material-animated">
+                    <span style="font-weight: 300; line-height: 30px; font-size: 18px;">Lorem ipsum dolor</span>
+                    <span flex></span>
+                    <h5 style="margin-top: 8px; font-size: 14px; line-height: 25px; font-weight: 400;">Nunc ac massa sit amet tortor congue auctor quis rhoncus quam.</h5>
+                  </div> 
+                  <div flex style="background: rgb(2, 168, 243); color: white; padding: 20px; box-shadow: 0 1px 3px 0 rgba(0,0,0,.2),0 1px 1px 0 rgba(0,0,0,.14),0 2px 1px -1px rgba(0,0,0,.12); margin: 5px 0; animation-delay: 0.94s;" class="material-animate material-animated">
+                    <span style="font-weight: 300; line-height: 30px; font-size: 18px;">Lorem ipsum dolor</span>
+                    <span flex></span>
+                    <h5 style="margin-top: 8px; font-size: 14px; line-height: 25px; font-weight: 400;">Donec ultrices porta lectus quis sodales.</h5>
+                  </div>     
+                </div>
+              </div>
+              <div flex="60" flex-sm="100" flex-md="100" resize-chart chartname="commonIssueChart" style="box-shadow: 0 1px 3px 0 rgba(0,0,0,.2),0 1px 1px 0 rgba(0,0,0,.14),0 2px 1px -1px rgba(0,0,0,.12); margin:5px; animation-delay: 0.81s;" class="material-animate material-animated">
+                <div layout="column" layout-padding  ng-controller="CommonIssueController as cicc">
+                  <div flex>
+                    <div layout="row">
+                      <div flex>
+                        <div>
+                          <span style="font-weight: 300; line-height: 25px; font-size: 18px;">Top 10 Issues</span>
+                          <span flex></span>
+                          <h5 style="margin-top: 8px; font-size: 14px; line-height: 25px; font-weight: 500;">Tom vs Mary</h5>
+                        </div>
+                      </div>
+                      <span flex></span>
+                      <md-menu style="padding: 0;" md-position-mode="target-right target">
+                        <md-button class="md-icon-button" aria-label="Open Settings"
+                                   ng-click="cicc.openMenu($mdOpenMenu, $event)">
+                          <md-icon md-svg-icon="navigation:ic_more_vert_24px" aria-label="More"></md-icon>
+                        </md-button>
+                        <md-menu-content width="2">
+                          <md-menu-item>
+                            <md-button aria-label="Refresh Chart">
+                              <md-icon md-svg-icon="navigation:ic_refresh_24px" aria-label="Refresh"></md-icon>
+                              <span>Refresh</span>
+                            </md-button>
+                          </md-menu-item>
+                          <md-menu-item>
+                            <md-button aria-label="Filter Data">
+                              <md-icon md-svg-icon="content:ic_filter_list_24px" aria-label="Filter"></md-icon>
+                              Filter
+                            </md-button>
+                          </md-menu-item>
+                          <md-menu-item>
+                            <md-button aria-label="Print Data">
+                              <md-icon md-svg-icon="action:ic_print_24px" aria-label="Print"></md-icon>
+                              Print
+                            </md-button>
+                          </md-menu-item>
+                        </md-menu-content>
+                      </md-menu>
+                    </div>
+                  </div>
+                  <div>
+                    <div id="commonIssueChart" kendo-chart k-options="cicc.CommonIssuechart" k-data-source="cicc.CommonIssueData"></div> 
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- End of life support notification div-->
+          <div flex="34" flex-sm="100" flex-md="100" style="margin:5px;">
+            <div layout="row" style="box-shadow: 0 1px 3px 0 rgba(0,0,0,.2),0 1px 1px 0 rgba(0,0,0,.14),0 2px 1px -1px rgba(0,0,0,.12); background: rgb(0,0,0); padding: 20px; color: white; animation-delay: 0.99s;" class="material-animate material-animated">
+              <div flex="10">
+                <md-icon md-svg-icon="action:ic_announcement_24px" aria-label="Refresh" style="color: white;"></md-icon>
+              </div>
+              <div flex="90">
+                <div layout="column">
+                  <div flex>
+                    <div layout="row">
+                      <div flex>
+                        <span style="font-weight: 300; line-height: 25px; font-size: 18px;">Lorem ipsum dolor</span>
+                        <span flex></span>   
+                      </div>
+                      <span>10:50 AM</span> 
+                    </div>
+                  </div>
+                  <div flex>
+                    <h5 style="margin-top: 8px; font-size: 14px; line-height: 25px; font-weight: 400;">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur quis ipsum ornare, blandit augue id, aliquam odio.</h5>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Enf of div for c3.js and chart -->
+
+      </md-content>
+
+    </div>
+
+   
+  </body>
+</html>
+
+

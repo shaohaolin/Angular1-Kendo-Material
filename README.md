@@ -13,4 +13,4 @@ This sample shows how to create an AngularJS 1 App that:
 [Shaohao Lin](https://ca.linkedin.com/in/shaohaolin)
 
 #License
-This project is licensed under the MIT license. See the LICENSE file for more info.
+This project is licensed under the MIT license. See the [LICENSE](https://github.com/shaohaolin/Angular1-Kendo-Material/blob/master/LICENSE.txt) file for more info.
